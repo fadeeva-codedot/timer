@@ -10,28 +10,28 @@ const msConvert = {
 }
 
 const convertTime = (time, result) => {
-	if (+time === msConvert.hours) return result + '1h'
-	if (+time === msConvert.minutes) return result + '1m'
-	if (+time === msConvert.seconds) return result + '1s'
+	if (+time === msConvert.hours) return result + '1h '
+	if (+time === msConvert.minutes) return result + '1m '
+	if (+time === msConvert.seconds) return result + '1s '
 
 	if (time > msConvert.hours) {
 		return convertTime(
 			time % msConvert.hours,
-			result + Math.trunc(time / msConvert.hours) + 'h'
+			result + Math.trunc(time / msConvert.hours) + 'h '
 		)
 	}
 
 	if (time > msConvert.minutes && time < msConvert.hours) {
 		return convertTime(
 			time % msConvert.minutes,
-			result + Math.trunc(time / msConvert.minutes) + 'm'
+			result + Math.trunc(time / msConvert.minutes) + 'm '
 		)
 	}
 
 	if (time > msConvert.seconds && time < msConvert.minutes) {
 		return convertTime(
 			time % msConvert.seconds,
-			result + Math.trunc(time / msConvert.seconds) + 's'
+			result + Math.trunc(time / msConvert.seconds) + 's '
 		)
 	}
 
