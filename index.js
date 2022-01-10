@@ -38,7 +38,7 @@ const convertTime = (time, result) => {
 	result += time + 'ms'
 	return result
 }
-
+/*without recursion*/
 const timerCount = (time) => {
 	if (time >= 0) {
 		timerOutput.innerText = convertTime(time, '')
