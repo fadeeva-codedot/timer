@@ -19,14 +19,14 @@
 				type="text"
 				class="timer_input"
 				placeholder="enter time"
-				id="input"
+				id="f_input"
 				value
 			/>
 			<div class="timer_button-wrapper">
 				<button
 					type="button"
 					class="timer_button button_start"
-					id="start"
+					id="f_start"
 				>
 					Start
 				</button>
@@ -34,7 +34,7 @@
 				<button
 					type="button"
 					class="timer_button button_stop"
-					id="stop"
+					id="f_stop"
 				>
 					Stop
 				</button>
@@ -42,13 +42,50 @@
 				<button
 					type="button"
 					class="timer_button button_reset"
-					id="reset"
+					id="f_reset"
 				>
 					Reset
 				</button>
 			</div>
 
-			<time class="timer_output" id="output">00h 00m 00s 00ms</time>
+			<time class="timer_output" id="f_output">00h 00m 00s 00ms</time>
+		</div>
+
+		<div class="timer_container">
+			<input
+				type="text"
+				class="timer_input"
+				placeholder="enter time"
+				id="s_input"
+				value
+			/>
+			<div class="timer_button-wrapper">
+				<button
+					type="button"
+					class="timer_button button_start"
+					id="s_start"
+				>
+					Start
+				</button>
+
+				<button
+					type="button"
+					class="timer_button button_stop"
+					id="s_stop"
+				>
+					Stop
+				</button>
+
+				<button
+					type="button"
+					class="timer_button button_reset"
+					id="s_reset"
+				>
+					Reset
+				</button>
+			</div>
+
+			<time class="timer_output" id="s_output">00h 00m 00s 00ms</time>
 		</div>
 		<script src="index.js"></script>
 	</body>
