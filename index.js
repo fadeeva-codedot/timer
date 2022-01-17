@@ -58,60 +58,7 @@ function Timer(input, output, stop, start, reset) {
 	this.timerStart = () => {
 		const inputField = document.getElementById(input)
 
-		if (
-			Array.from(inputField.value)
-				.concat(' ')
-				.join('')
-				.replace(/([\d]+(h|ms|m|s)\s+)+/, '').length === 0
-		) {
-			if (this.currentTime === 0) {
-				this.currentTime = inputField.value
-					.split('')
-					.filter((el) => el !== ' ')
-					.reduce((prev, item, idx, arr) => {
-						return (
-							prev +
-							item +
-							(!Number.isInteger(+item) &&
-							Number.isInteger(+arr[idx + 1])
-								? ' '
-								: '')
-						)
-					}, '')
-					.split(' ')
-					.reduce((prev, item) => {
-						const num = parseInt(item) //convert all time values at milliseconds
-
-						switch (
-							item
-								.replace(/([0])*/, '')
-								.slice(num.toString().length)
-						) {
-							case 'h':
-								return prev + num * msConvert.hours
-							case 'm':
-								return prev + num * msConvert.minutes
-							case 's':
-								return prev + num * msConvert.seconds
-							case 'ms':
-								return prev + num
-
-							default:
-								return prev + 0
-						}
-					}, 0)
-				inputField.disabled = true
-			}
-
-			this.buttonCtrl(true, false, false)
-
-			this.timerID = setInterval(
-				() => this.timerCount(this.currentTime),
-				10
-			)
-		} else {
-			alert('Wrong input value')
-		}
+		/*without regular expressions*/
 	}
 
 	this.timerReset = () => {
