@@ -62,7 +62,7 @@ function Timer(input, output, stop, start, reset) {
 			Array.from(inputField.value)
 				.concat(' ')
 				.join('')
-				.replace(/([1-9]+[\d]*(h|ms|m|s)\s+)+/, '').length === 0
+				.replace(/([\d]+(h|ms|m|s)\s+)+/, '').length === 0
 		) {
 			if (this.currentTime === 0) {
 				this.currentTime = inputField.value
@@ -82,7 +82,11 @@ function Timer(input, output, stop, start, reset) {
 					.reduce((prev, item) => {
 						const num = parseInt(item) //convert all time values at milliseconds
 
-						switch (item.slice(num.toString().length)) {
+						switch (
+							item
+								.replace(/([0])*/, '')
+								.slice(num.toString().length)
+						) {
 							case 'h':
 								return prev + num * msConvert.hours
 							case 'm':
