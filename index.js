@@ -1,17 +1,18 @@
-const msConvert = {
-	hours: 36e5,
-	minutes: 6e4,
-	seconds: 1e3
-}
-
 function Timer(input, output, stop, start, reset) {
-	this.timerOutput = document.getElementById(output)
+	this.inputField = document.querySelector(`#${input}`)
+	this.timerOutput = document.querySelector(`#${output}`)
+	this.startBtn = document.querySelector(`#${start}`)
+	this.resetBtn = document.querySelector(`#${reset}`)
+	this.stopBtn = document.querySelector(`#${stop}`)
 
 	this.timerID
 	this.currentTime = 0
-	this.startBtn = document.getElementById(start)
-	this.resetBtn = document.getElementById(reset)
-	this.stopBtn = document.getElementById(stop)
+
+	this.msConvert = {
+		hours: 36e5,
+		minutes: 6e4,
+		seconds: 1e3
+	}
 
 	this.buttonCtrl = (startDis, stopDis, resetDis) => {
 		this.startBtn.disabled = startDis
@@ -19,27 +20,27 @@ function Timer(input, output, stop, start, reset) {
 		this.resetBtn.disabled = resetDis
 	}
 
-	this.buttonCtrl(false, true, true)
-
-	const convertTime = (time, result) => {
+	const convertTime = (time) => {
 		//output time in correct format
-		if (time >= msConvert.hours) {
-			result += Math.trunc(time / msConvert.hours) + 'h '
-			time %= msConvert.hours
+		let result = ''
+
+		if (time >= this.msConvert.hours) {
+			result += Math.trunc(time / this.msConvert.hours) + 'h '
+			time %= this.msConvert.hours
 		} else {
 			result += '00h '
 		}
 
-		if (time >= msConvert.minutes && time < msConvert.hours) {
-			result += Math.trunc(time / msConvert.minutes) + 'm '
-			time %= msConvert.minutes
+		if (time >= this.msConvert.minutes && time < this.msConvert.hours) {
+			result += Math.trunc(time / this.msConvert.minutes) + 'm '
+			time %= this.msConvert.minutes
 		} else {
 			result += '00m '
 		}
 
-		if (time >= msConvert.seconds && time < msConvert.minutes) {
-			result += Math.trunc(time / msConvert.seconds) + 's '
-			time %= msConvert.seconds
+		if (time >= this.msConvert.seconds && time < this.msConvert.minutes) {
+			result += Math.trunc(time / this.msConvert.seconds) + 's '
+			time %= this.msConvert.seconds
 		} else {
 			result += '00s '
 		}
@@ -49,21 +50,22 @@ function Timer(input, output, stop, start, reset) {
 	}
 
 	this.timerCount = (time) => {
+		this.timerOutput.innerText = convertTime(time, '')
 		if (time >= 0) {
-			this.timerOutput.innerText = convertTime(time, '')
 			this.currentTime = time - 10
+		} else {
+			alert('Time is over')
+			this.timerReset()
 		}
 	}
 
 	this.timerStart = () => {
-		const inputField = document.getElementById(input)
-
 		if (
-			(inputField.value + ' ').replace(/([\d]+(h|ms|m|s)\s+)+/, '')
+			(this.inputField.value + ' ').replace(/([\d]+(h|ms|m|s)\s+)+/, '')
 				.length === 0
 		) {
 			if (this.currentTime === 0) {
-				this.currentTime = inputField.value
+				this.currentTime = this.inputField.value
 					.split(' ')
 					.filter((el) => el !== '')
 					.reduce((prev, item) => {
@@ -71,11 +73,11 @@ function Timer(input, output, stop, start, reset) {
 
 						switch (item.replace(/\d+/, '')) {
 							case 'h':
-								return prev + num * msConvert.hours
+								return prev + num * this.msConvert.hours
 							case 'm':
-								return prev + num * msConvert.minutes
+								return prev + num * this.msConvert.minutes
 							case 's':
-								return prev + num * msConvert.seconds
+								return prev + num * this.msConvert.seconds
 							case 'ms':
 								return prev + num
 
@@ -83,7 +85,7 @@ function Timer(input, output, stop, start, reset) {
 								return prev + 0
 						}
 					}, 0)
-				inputField.disabled = true
+				this.inputField.disabled = true
 			}
 
 			this.buttonCtrl(true, false, false)
@@ -101,9 +103,8 @@ function Timer(input, output, stop, start, reset) {
 		this.timerCount(0)
 		clearInterval(this.timerID)
 		this.currentTime = 0
-		const inputField = document.getElementById(input)
-		inputField.disabled = false
-		inputField.value = ''
+		this.inputField.disabled = false
+		this.inputField.value = ''
 		this.buttonCtrl(false, true, true)
 	}
 
@@ -112,9 +113,14 @@ function Timer(input, output, stop, start, reset) {
 		this.buttonCtrl(false, true, false)
 	}
 
-	document.getElementById(start).addEventListener('click', this.timerStart)
-	document.getElementById(reset).addEventListener('click', this.timerReset)
-	document.getElementById(stop).addEventListener('click', this.timerStop)
+	this.timerInit = () => {
+		this.buttonCtrl(false, true, true)
+		this.startBtn.addEventListener('click', this.timerStart)
+		this.resetBtn.addEventListener('click', this.timerReset)
+		this.stopBtn.addEventListener('click', this.timerStop)
+	}
+
+	this.timerInit()
 }
 
 const fTimer = new Timer('f_input', 'f_output', 'f_stop', 'f_start', 'f_reset')
