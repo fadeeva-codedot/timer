@@ -1,9 +1,9 @@
 function Timer(input, output, stop, start, reset) {
-	this.inputField = document.querySelector(`#${input}`)
-	this.timerOutput = document.querySelector(`#${output}`)
-	this.startBtn = document.querySelector(`#${start}`)
-	this.resetBtn = document.querySelector(`#${reset}`)
-	this.stopBtn = document.querySelector(`#${stop}`)
+	this.inputField = document.querySelector(input)
+	this.timerOutput = document.querySelector(output)
+	this.startBtn = document.querySelector(start)
+	this.resetBtn = document.querySelector(reset)
+	this.stopBtn = document.querySelector(stop)
 
 	this.timerID
 	this.currentTime = 0
@@ -20,7 +20,7 @@ function Timer(input, output, stop, start, reset) {
 		this.resetBtn.disabled = resetDis
 	}
 
-	const convertTime = (time) => {
+	this.convertTime = (time) => {
 		//output time in correct format
 		let result = ''
 
@@ -50,7 +50,7 @@ function Timer(input, output, stop, start, reset) {
 	}
 
 	this.timerCount = (time) => {
-		this.timerOutput.innerText = convertTime(time, '')
+		this.timerOutput.innerText = this.convertTime(time)
 		if (time >= 0) {
 			this.currentTime = time - 10
 		} else {
@@ -65,26 +65,7 @@ function Timer(input, output, stop, start, reset) {
 				.length === 0
 		) {
 			if (this.currentTime === 0) {
-				this.currentTime = this.inputField.value
-					.split(' ')
-					.filter((el) => el !== '')
-					.reduce((prev, item) => {
-						const num = parseInt(item) //convert all time values at milliseconds
-
-						switch (item.replace(/\d+/, '')) {
-							case 'h':
-								return prev + num * this.msConvert.hours
-							case 'm':
-								return prev + num * this.msConvert.minutes
-							case 's':
-								return prev + num * this.msConvert.seconds
-							case 'ms':
-								return prev + num
-
-							default:
-								return prev + 0
-						}
-					}, 0)
+				this.convertTimeToMs()
 				this.inputField.disabled = true
 			}
 
@@ -97,6 +78,29 @@ function Timer(input, output, stop, start, reset) {
 		} else {
 			alert('Wrong input value')
 		}
+	}
+
+	this.convertTimeToMs = () => {
+		this.currentTime = this.inputField.value
+			.split(' ')
+			.filter((el) => el !== '')
+			.reduce((prev, item) => {
+				const num = parseInt(item) //convert all time values at milliseconds
+
+				switch (item.replace(/\d+/, '')) {
+					case 'h':
+						return prev + num * this.msConvert.hours
+					case 'm':
+						return prev + num * this.msConvert.minutes
+					case 's':
+						return prev + num * this.msConvert.seconds
+					case 'ms':
+						return prev + num
+
+					default:
+						return prev + 0
+				}
+			}, 0)
 	}
 
 	this.timerReset = () => {
@@ -123,5 +127,17 @@ function Timer(input, output, stop, start, reset) {
 	this.timerInit()
 }
 
-const fTimer = new Timer('f_input', 'f_output', 'f_stop', 'f_start', 'f_reset')
-const sTimer = new Timer('s_input', 's_output', 's_stop', 's_start', 's_reset')
+const fTimer = new Timer(
+	'#f_input',
+	'#f_output',
+	'#f_stop',
+	'#f_start',
+	'#f_reset'
+)
+const sTimer = new Timer(
+	'#s_input',
+	'#s_output',
+	'#s_stop',
+	'#s_start',
+	'#s_reset'
+)
