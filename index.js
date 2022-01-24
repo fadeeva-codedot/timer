@@ -1,26 +1,29 @@
-function Timer(input, output, stop, start, reset) {
-	this.inputField = document.querySelector(input)
-	this.timerOutput = document.querySelector(output)
-	this.startBtn = document.querySelector(start)
-	this.resetBtn = document.querySelector(reset)
-	this.stopBtn = document.querySelector(stop)
+class Timer {
+	constructor(input, output, stop, start, reset) {
+		this.inputField = document.querySelector(input)
+		this.timerOutput = document.querySelector(output)
+		this.startBtn = document.querySelector(start)
+		this.resetBtn = document.querySelector(reset)
+		this.stopBtn = document.querySelector(stop)
 
-	this.timerID
-	this.currentTime = 0
+		this.timerInit()
+	}
 
-	this.msConvert = {
+	currentTime = 0
+
+	msConvert = {
 		hours: 36e5,
 		minutes: 6e4,
 		seconds: 1e3
 	}
 
-	this.buttonCtrl = (startDis, stopDis, resetDis) => {
+	buttonCtrl = (startDis, stopDis, resetDis) => {
 		this.startBtn.disabled = startDis
 		this.stopBtn.disabled = stopDis
 		this.resetBtn.disabled = resetDis
 	}
 
-	this.convertTime = (time) => {
+	convertTime = (time) => {
 		//output time in correct format
 		let result = ''
 
@@ -49,7 +52,7 @@ function Timer(input, output, stop, start, reset) {
 		return result
 	}
 
-	this.timerCount = (time) => {
+	timerCount = (time) => {
 		this.timerOutput.innerText = this.convertTime(time)
 		if (time >= 0) {
 			this.currentTime = time - 10
@@ -59,7 +62,7 @@ function Timer(input, output, stop, start, reset) {
 		}
 	}
 
-	this.timerStart = () => {
+	timerStart = () => {
 		if (
 			(this.inputField.value + ' ').replace(/([\d]+(h|ms|m|s)\s+)+/, '')
 				.length === 0
@@ -80,7 +83,7 @@ function Timer(input, output, stop, start, reset) {
 		}
 	}
 
-	this.convertTimeToMs = () => {
+	convertTimeToMs = () => {
 		this.currentTime = this.inputField.value
 			.split(' ')
 			.filter((el) => el !== '')
@@ -103,7 +106,7 @@ function Timer(input, output, stop, start, reset) {
 			}, 0)
 	}
 
-	this.timerReset = () => {
+	timerReset = () => {
 		this.timerCount(0)
 		clearInterval(this.timerID)
 		this.currentTime = 0
@@ -112,19 +115,17 @@ function Timer(input, output, stop, start, reset) {
 		this.buttonCtrl(false, true, true)
 	}
 
-	this.timerStop = () => {
+	timerStop = () => {
 		clearInterval(this.timerID)
 		this.buttonCtrl(false, true, false)
 	}
 
-	this.timerInit = () => {
+	timerInit = () => {
 		this.buttonCtrl(false, true, true)
 		this.startBtn.addEventListener('click', this.timerStart)
 		this.resetBtn.addEventListener('click', this.timerReset)
 		this.stopBtn.addEventListener('click', this.timerStop)
 	}
-
-	this.timerInit()
 }
 
 const fTimer = new Timer(
